@@ -1,24 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
+import { useState } from 'react';
+
 import './App.css';
+import SearchBox from './components/Search';
+import { Result } from './types';
+import Results from './components/Results';
+import ToggleSwitch from './components/Toggle';
 
 function App() {
+
+  // State for the search result
+  const [results, setResults] : Array<any> = useState();
+  const [sortedResults, setSortedResults] : Array<any> = useState();
+  const [toggled, setToggled] = useState(false);
+
+  // Function to call the API
+  async function callAPI(search: string) {
+    const response = await fetch(`https://openlibrary.org/search.json?q=${search}`);
+    const data : Result = await response.json();
+    setResults(data.docs);
+    setSortedResults( [...data.docs].sort((a, b) => a.first_publish_year - b.first_publish_year));
+  }
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+       <SearchBox onSearch={callAPI}/>
+       <ToggleSwitch onToggle={setToggled}/>
+       <Results books={toggled ? sortedResults : results}/>
     </div>
   );
 }
