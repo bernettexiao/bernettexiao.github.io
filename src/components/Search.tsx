@@ -12,13 +12,12 @@ const SearchBox: React.FC<SearchBoxProps> = ({ onSearch }) => {
   const debouncedSearch = useCallback(
     _.debounce((q: string) => {
       onSearch(q);
-    }, 500), // 500ms debounce time
+    }, 500),
     [onSearch]
   );
 
   useEffect(() => {
     debouncedSearch(search);
-    // Cancel the debounce on component unmount
     return () => {
       debouncedSearch.cancel();
     };
