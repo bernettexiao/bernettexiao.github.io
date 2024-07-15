@@ -23,9 +23,9 @@ function App() {
   
   return (
     <div className="container">
-       <SearchBox onSearch={callAPI}/>
-       <ToggleSwitch onToggle={setToggled}/>
-       <Results books={toggled ? sortedResults : results}/>
+       <div className="element"><SearchBox onSearch={callAPI}/></div>
+       <div className="element"><ToggleSwitch onToggle={setToggled}/></div>
+       <div className="element"><Results books={toggled ? sortedResults : results}/></div>
     </div>
   );
 }
