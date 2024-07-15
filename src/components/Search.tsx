@@ -13,7 +13,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({ onSearch }) => {
     _.debounce((q: string) => {
       onSearch(q);
     }, 500), // 500ms debounce time
-    []
+    [onSearch]
   );
 
   useEffect(() => {
